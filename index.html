@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XAMP VENTAS - Plataforma Digital</title>
+    <style>
+        :root {
+            --bg-dark: #07090e;
+            --panel-bg: rgba(15, 23, 42, 0.3);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --neon-cyan: #00d9f5;
+            --neon-green: #00f5a0;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --gradient-xamp: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-green) 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(0, 217, 245, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(0, 245, 160, 0.05) 0%, transparent 50%);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        /* =========================================
+           PANTALLA DE BIENVENIDA
+           ========================================= */
+        #welcome-screen {
+            background: var(--panel-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+        }
+
+        .logo-xamp-corner {
+            position: absolute;
+            top: 3rem;
+            left: 4rem;
+            font-size: 3rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .logo-xamp-corner span:first-child {
+            background: var(--gradient-xamp);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 4.5rem;
+            filter: drop-shadow(0 0 15px rgba(0, 217, 245, 0.4));
+            margin-right: 5px;
+        }
+
+        .character-container {
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            height: 80vh;
+            z-index: 2;
+            display: flex;
+            align-items: flex-end;
+            filter: drop-shadow(0 0 25px rgba(0, 217, 245, 0.4));
+            animation: float 6s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .character-container img {
+            max-height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .welcome-content {
+            margin-left: auto;
+            margin-right: 15%;
+            text-align: right;
+            max-width: 600px;
+            z-index: 3;
+            position: relative;
+        }
+
+        .welcome-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .welcome-title span {
+            background: var(--gradient-xamp);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-desc {
+            color: var(--text-muted);
+            font-size: 1.3rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .btn-ingresar-corner {
+            position: absolute;
+            bottom: 4rem;
+            right: 4rem;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 2px solid var(--neon-cyan);
+            padding: 1rem 3.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(0, 217, 245, 0.1) inset, 0 0 15px rgba(0, 217, 245, 0.2);
+            z-index: 3;
+        }
+
+        .btn-ingresar-corner:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px rgba(0, 217, 245, 0.6);
+            transform: scale(1.05);
+        }
+
+        /* =========================================
+           DASHBOARD PRINCIPAL
+           ========================================= */
+        #dashboard-screen {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            opacity: 0;
+            transform: scale(0.98);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem;
+        }
+
+        .dashboard-container {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+        }
+
+        .sidebar {
+            width: 260px;
+            background: rgba(0,0,0,0.3);
+            border-right: 1px solid var(--glass-border);
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            margin-bottom: 3rem;
+            display: flex;
+            align-items: center;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-logo span:first-child {
+            color: var(--neon-cyan);
+            font-size: 2.5rem;
+            margin-right: 2px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .nav-item {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            color: var(--text-muted);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-size: 1.05rem;
+        }
+
+        .nav-item:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.05);
+            transform: translateX(5px);
+        }
+
+        .nav-item.active {
+            background: linear-gradient(90deg, rgba(0, 217, 245, 0.15) 0%, transparent 100%);
+            color: var(--neon-cyan);
+            border-left: 4px solid var(--neon-cyan);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .btn-abrir-registro {
+            width: 100%;
+            background: rgba(0, 217, 245, 0.1);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        .btn-abrir-registro:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px rgba(0, 217, 245, 0.4);
+        }
+
+        .user-info {
+            font-size: 0.85rem;
+            color: var(--neon-green);
+            text-align: center;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 3rem;
+            overflow-y: auto;
+        }
+
+        .header-section {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: var(--gradient-xamp);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Botón de cómo comprar */
+        .btn-como-comprar {
+            background: rgba(0, 245, 160, 0.1);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-como-comprar:hover {
+            background: var(--neon-green);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px rgba(0, 245, 160, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* Contenedor del Catálogo Grid */
+        #content-area {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            align-items: start;
+        }
+
+        /* =========================================
+           SECCIÓN INICIO
+           ========================================= */
+        .inicio-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .inicio-imagen img {
+            max-height: 250px;
+            filter: drop-shadow(0 0 20px rgba(0, 217, 245, 0.3));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .inicio-bienvenida-texto {
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .inicio-bienvenida-texto span {
+            background: var(--gradient-xamp);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(0, 245, 160, 0.2);
+        }
+
+        .inicio-guia {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .inicio-guia h3 {
+            color: var(--neon-green);
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .inicio-pasos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .paso-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .paso-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-green);
+        }
+
+        .paso-card .numero {
+            background: rgba(0, 245, 160, 0.15);
+            color: var(--neon-green);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0 auto 1rem auto;
+        }
+
+        .paso-card h4 {
+            color: #fff;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .paso-card p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* =========================================
+           TARJETAS DE PRODUCTO (CATÁLOGO)
+           ========================================= */
+        .card-producto {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-producto:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 217, 245, 0.2);
+        }
+
+        .img-wrapper {
+            width: 100%;
+            height: 140px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .img-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .titulo-producto {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            flex-grow: 1;
+        }
+
+        .botones-container {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-info:hover {
+            color: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            background: rgba(0, 217, 245, 0.1);
+        }
+
+        .btn-pedido {
+            flex: 1;
+            background: var(--gradient-xamp);
+            color: #07090e;
+            border: none;
+            padding: 0.7rem 1rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-pedido:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 15px rgba(0, 245, 160, 0.5);
+        }
+
+        /* =========================================
+           MODALES BASE Y OVERLAYS
+           ========================================= */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background: #0f172a;
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 2.5rem;
+            width: 380px;
+            max-width: 90%;
+            box-shadow: 0 0 30px rgba(0, 217, 245, 0.1);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        /* =========================================
+           MODAL: ¿CÓMO COMPRAR? (Estilo Imagen)
+           ========================================= */
+        .modal-compra-content {
+            background: #111520;
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            width: 480px;
+            max-width: 95%;
+            padding: 1.5rem;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-compra-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-compra-header h3 {
+            font-size: 1rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-compra-header h3::before {
+            content: '▶';
+            color: var(--neon-green);
+            font-size: 0.8rem;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 180px;
+            background: #ffffff;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .guia-title {
+            color: var(--neon-green);
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+        }
+
+        .paso-item {
+            display: flex;
+            align-items: center;
+            background: #181d2c;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            padding: 0.8rem 1rem;
+            margin-bottom: 0.5rem;
+            gap: 1rem;
+        }
+
+        .paso-num {
+            background: rgba(0, 245, 160, 0.1);
+            color: var(--neon-green);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .paso-text h4 {
+            font-size: 0.85rem;
+            color: #fff;
+            margin-bottom: 0.1rem;
+        }
+
+        .paso-text p {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            line-height: 1.3;
+        }
+
+        .btn-entendido {
+            width: 100%;
+            background: #10b981;
+            color: #fff;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-entendido:hover { background: #059669; }
+
+        /* =========================================
+           ESTILO DETALLE PRODUCTO
+           ========================================= */
+        .product-modal {
+            width: 440px;
+            max-width: 90%;
+            background: #0b111e;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: background 0.2s;
+        }
+
+        .modal-close-btn:hover { background: rgba(255, 255, 255, 0.2); }
+
+        .product-modal-banner {
+            width: 100%;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .product-modal-banner img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-modal-body { padding: 1.8rem; }
+
+        .product-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .product-modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+            max-width: 70%;
+            text-transform: uppercase;
+        }
+
+        .product-modal-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            text-align: right;
+        }
+
+        .product-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag-item {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .tag-category { background: rgba(0, 217, 245, 0.12); color: var(--neon-cyan); }
+        .tag-stock { background: rgba(0, 245, 160, 0.12); color: var(--neon-green); }
+
+        .product-desc-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.6rem;
+        }
+
+        .product-desc-content {
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            padding: 1rem;
+            max-height: 160px;
+            overflow-y: auto;
+            margin-bottom: 1.8rem;
+        }
+
+        .product-desc-content ul { list-style: none; }
+        .product-desc-content li {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: flex-start;
+            text-transform: uppercase;
+        }
+        .product-desc-content li::before {
+            content: "-";
+            color: var(--neon-cyan);
+            font-weight: bold;
+            display: inline-block;
+            width: 12px;
+            margin-left: 2px;
+            flex-shrink: 0;
+        }
+
+        .btn-action-green {
+            width: 100%;
+            background: #00c853;
+            color: #ffffff;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .btn-action-green:hover {
+            background: #00e676;
+            transform: translateY(-2px);
+        }
+
+        /* Inputs y extras modales */
+        .input-xamp {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            color: white;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        .input-xamp:focus {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 217, 245, 0.2);
+        }
+        .btn-guardar {
+            width: 100%;
+            background: var(--gradient-xamp);
+            color: #000;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 0.5rem;
+        }
+        .btn-dark-cancel {
+            width: 100%;
+            background: transparent;
+            color: var(--text-muted);
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+        .btn-dark-cancel:hover { color: white; }
+
+        /* =========================================
+           RESPONSIVE MOBILE
+           ========================================= */
+        @media (max-width: 768px) {
+            .logo-xamp-corner { top: 1.5rem; left: 1.5rem; font-size: 1.8rem; }
+            .logo-xamp-corner span:first-child { font-size: 2.5rem; }
+            .character-container { left: 50%; transform: translateX(-50%); height: 50vh; opacity: 0.5; z-index: 1; animation: floatMobile 6s ease-in-out infinite;}
+            .welcome-content { margin: 0 auto; text-align: center; padding: 0 1.5rem; z-index: 3; width: 100%; }
+            .welcome-title { font-size: 2.8rem; margin-bottom: 1rem; }
+            .welcome-desc { font-size: 1.1rem; }
+            .btn-ingresar-corner { bottom: 3rem; left: 50%; right: auto; transform: translateX(-50%); width: 80%; text-align: center; }
+            .btn-ingresar-corner:hover { transform: translateX(-50%) scale(1.05); }
+
+            #dashboard-screen { padding: 0; }
+            .dashboard-container { flex-direction: column; border-radius: 0; border: none; }
+            
+            .sidebar { width: 100%; padding: 1.5rem 1rem 1rem 1rem; border-right: none; border-bottom: 1px solid var(--glass-border); background: rgba(15, 23, 42, 0.95); }
+            .sidebar-logo { margin-bottom: 1rem; font-size: 1.5rem; justify-content: center; }
+            .sidebar-logo span:first-child { font-size: 2rem; }
+            
+            .nav-menu { flex-direction: row; overflow-x: auto; gap: 0.5rem; padding-bottom: 0.5rem; scrollbar-width: none; }
+            .nav-menu::-webkit-scrollbar { display: none; }
+            .nav-item { padding: 0.6rem 1.2rem; font-size: 0.9rem; white-space: nowrap; border-radius: 20px; }
+            .nav-item.active { border-left: none; border-bottom: 3px solid var(--neon-cyan); background: rgba(0, 217, 245, 0.1); }
+            
+            .sidebar-footer { margin-top: 1rem; padding-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;}
+            
+            .main-content { padding: 1.5rem 1rem; }
+            .header-section { flex-direction: column; gap: 1rem; align-items: stretch;}
+            .header-section h2 { font-size: 1.8rem; text-align: center; }
+            
+            #content-area { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
+            
+            .titulo-producto { font-size: 0.9rem; margin-bottom: 0.5rem; }
+            .img-wrapper { height: 100px; }
+            .btn-pedido { font-size: 0.8rem; padding: 0.5rem; }
+            .btn-info { width: 35px; height: 35px; font-size: 0.9rem; }
+        }
+
+        @keyframes floatMobile {
+            0% { transform: translateX(-50%) translateY(0px); }
+            50% { transform: translateX(-50%) translateY(-15px); }
+            100% { transform: translateX(-50%) translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="welcome-screen">
+        <div class="logo-xamp-corner">
+            <span>X</span>AMP
+        </div>
+        
+        <div class="character-container">
+            <img src="personaje.png" alt="Personaje XAMP">
+        </div>
+        
+        <div class="welcome-content">
+            <h1 class="welcome-title">Bienvenido a <br><span>XAMP VENTAS</span></h1>
+            <p class="welcome-desc">Aquí puedes comprar cuentas de streaming y perfiles.</p>
+        </div>
+
+        <button class="btn-ingresar-corner" id="btn-ingresar">Ingresar</button>
+    </div>
+
+    <div id="dashboard-screen">
+        <div class="dashboard-container">
+            
+            <aside class="sidebar">
+                <div class="sidebar-logo">
+                    <span>X</span>AMP
+                </div>
+                <ul class="nav-menu">
+                    <li class="nav-item active" onclick="cambiarSeccion(this, 'Inicio')">Inicio</li>
+                    <li class="nav-item" onclick="cambiarSeccion(this, 'Streaming')">Streaming</li>
+                    <li class="nav-item" onclick="cambiarSeccion(this, 'Dox')">Dox</li>
+                    <li class="nav-item" onclick="cambiarSeccion(this, 'Cursos')">Cursos</li>
+                    <li class="nav-item" onclick="cambiarSeccion(this, 'APKs')">APKs</li>
+                </ul>
+
+                <div class="sidebar-footer">
+                    <button class="btn-abrir-registro" id="btn-abrir-modal">Registrarse</button>
+                    <div id="user-display" class="user-info"></div>
+                </div>
+            </aside>
+
+            <main class="main-content">
+                <div class="header-section">
+                    <h2 id="titulo-seccion">Inicio</h2>
+                    <button class="btn-como-comprar" onclick="abrirModalComoComprar()">
+                        ❓ ¿Cómo comprar?
+                    </button>
+                </div>
+                
+                <div id="content-area">
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="modal-como-comprar" class="modal-overlay">
+        <div class="modal-compra-content">
+            <div class="modal-compra-header">
+                <h3>¿Cómo realizar tu compra?</h3>
+                <button class="modal-close-btn" onclick="cerrarModalComoComprar()">✕</button>
+            </div>
+            
+            <div class="video-placeholder"></div>
+            
+            <div class="guia-paso-a-paso">
+                <p class="guia-title">GUÍA PASO A PASO</p>
+                
+                <div class="paso-item">
+                    <div class="paso-num">1</div>
+                    <div class="paso-text">
+                        <h4>Elige tus productos</h4>
+                        <p>Agrega al carrito lo que deseas comprar navegando por nuestro catálogo.</p>
+                    </div>
+                </div>
+                
+                <div class="paso-item">
+                    <div class="paso-num">2</div>
+                    <div class="paso-text">
+                        <h4>Revisa tu pedido</h4>
+                        <p>Abre el carrito y presiona el botón "Proceder al Pago".</p>
+                    </div>
+                </div>
+                
+                <div class="paso-item">
+                    <div class="paso-num">3</div>
+                    <div class="paso-text">
+                        <h4>Realiza el pago</h4>
+                        <p>Usa el código QR o las cuentas bancarias para transferir el total exacto.</p>
+                    </div>
+                </div>
+                
+                <div class="paso-item">
+                    <div class="paso-num">4</div>
+                    <div class="paso-text">
+                        <h4>Notifica tu compra</h4>
+                        <p>Haz clic en el botón de WhatsApp para enviar automáticamente tu pedido y comprobante.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-entendido" onclick="cerrarModalComoComprar()">¡Entendido, ir a comprar!</button>
+        </div>
+    </div>
+
+    <div id="modal-registro" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Crear Cuenta</h3>
+            <br>
+            <input type="text" id="reg-usuario" class="input-xamp" placeholder="Nombre de usuario" required>
+            <input type="email" id="reg-gmail" class="input-xamp" placeholder="Correo electrónico (@gmail.com)" required>
+            <button class="btn-guardar" id="btn-guardar-datos">Registrar y Exportar a Excel</button>
+            <button class="btn-dark-cancel" id="btn-cerrar-modal">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="modal-info" class="modal-overlay">
+        <div class="product-modal">
+            <button class="modal-close-btn" onclick="cerrarModalInfo()">✕</button>
+            
+            <div class="product-modal-banner">
+                <img id="modal-img" src="" alt="Producto">
+            </div>
+            
+            <div class="product-modal-body">
+                <div class="product-modal-header">
+                    <div class="product-modal-title" id="modal-title">Título</div>
+                    <div class="product-modal-price" id="modal-price">S/ 0.00</div>
+                </div>
+                
+                <div class="product-tags">
+                    <span class="tag-item tag-category" id="modal-tag-cat">STREAMING</span>
+                    <span class="tag-item tag-stock" id="modal-stock">Stock Disponible: 0</span>
+                </div>
+                
+                <div class="product-desc-title">Descripción</div>
+                
+                <div class="product-desc-content">
+                    <ul id="modal-desc-list">
+                    </ul>
+                </div>
+                
+                <button class="btn-action-green" id="btn-modal-comprar">
+                    🛒 Añadir a mi Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================
+           BASE DE DATOS DE PRODUCTOS
+           ========================================= */
+        const productosStreaming = {
+            'hbomax': {
+                id: 'hbomax',
+                categoria: 'STREAMING',
+                tituloCard: 'HBO MAX',
+                tituloModal: 'Alquiler HBO Max',
+                precio: 'S/ 15.00',
+                stock: 45,
+                imgLocal: 'hbomax.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg',
+                descripcion: [
+                    "Alquiler de cuenta completa HBO Max",
+                    "Plan Standard de alta definición",
+                    "Cuenta 100% renovable mes a mes",
+                    "Garantía total durante el tiempo contratado",
+                    "Se entrega correo electrónico y contraseña",
+                    "Válido para múltiples dispositivos"
+                ]
+            },
+            'paramount': {
+                id: 'paramount',
+                categoria: 'STREAMING',
+                tituloCard: 'HIT PARAMOUNT',
+                tituloModal: 'HIT PARAMOUNT',
+                precio: 'S/ 15.00',
+                stock: 183,
+                imgLocal: 'paramount.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus.svg',
+                descripcion: [
+                    "ACCESO O HIT PARAMOUNT",
+                    "PLAN : ALEAOTORIO",
+                    "PAIS : ALEAOTORIO",
+                    "DURACION : ALEATORIO",
+                    "UN SOLO PAGO / SIN MENSUALIDAD",
+                    "POSIBLE AUTOPAY",
+                    "SE BRINDA CORREO Y CONTRASEÑA."
+                ]
+            },
+            'cablego': {
+                id: 'cablego',
+                categoria: 'STREAMING',
+                tituloCard: 'CABLEGO CON SPN',
+                tituloModal: 'HIT CABLEGO PREMIUM CON SPN',
+                precio: 'S/ 17.00',
+                stock: 27,
+                imgLocal: 'cablego.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/1/12/User_icon_2.svg',
+                descripcion: [
+                    "ACCESO HIT CUENTA PREMIUM",
+                    "PLAN : PREMIUM CON SPN",
+                    "DURACION : ALEATORIA",
+                    "GARANTIA : DE ACCESO",
+                    "VALIDO EN ANDROID, PC Y SMARTV"
+                ]
+            },
+            'youtubestream': {
+                id: 'youtubestream',
+                categoria: 'STREAMING',
+                tituloCard: 'YOUTUBE PREMIUM',
+                tituloModal: 'CUENTA COMPLETA YOUTUBE PREMIUM',
+                precio: 'S/ 5.00',
+                stock: 150,
+                imgLocal: 'youtube.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Logo_of_YouTube_%282015-2017%29.svg',
+                descripcion: [
+                    "PLAN PREMIUM",
+                    "CUENTA COMPLETA",
+                    "GARANTIA DEL TIEMPO CONTRATADO",
+                    "SE ENTREGA CORREO Y CONTRASEÑA"
+                ]
+            }
+        };
+
+        const productosCursos = {
+            'prime6meses': {
+                id: 'prime6meses',
+                categoria: 'CURSOS',
+                tituloCard: 'Método Prime 06 Meses',
+                tituloModal: 'METODO PRIME 06 MESES',
+                precio: 'S/ 100.00',
+                stock: 20,
+                imgLocal: 'amazonprime.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg',
+                descripcion: [
+                    "METODO PRIME VIDEO 6 MESES",
+                    "INCLUYE VIDEO REFERENCIAL",
+                    "NO REQUIERE NINGUNA INVERSION ADICIONAL",
+                    "SIN BIN",
+                    "PUEDES HACERLO DESDE PC Y ANDROID",
+                    "SE TE AÑADE A UN CANAL DONDE ESTA EL VIDEO Y DETALLES DEL PRODUCTO."
+                ]
+            }
+        };
+
+        const productosApks = {
+            'youtubeapk': {
+                id: 'youtubeapk',
+                categoria: 'APKs',
+                tituloCard: 'YOUTUBE PREMIUM APK',
+                tituloModal: 'CUENTA COMPLETA YOUTUBE PREMIUM',
+                precio: 'S/ 40.00',
+                stock: 99,
+                imgLocal: 'youtubeapk.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Logo_of_YouTube_%282015-2017%29.svg',
+                descripcion: [
+                    "PLAN PREMIUM",
+                    "ÚNICO PAGO",
+                    "OPCIONES DE YOUTUBE PREMIUM",
+                    "GARANTIA DEL TIEMPO 4 MESES",
+                    "SE ENTREGA APK"
+                ]
+            }
+        };
+
+        // Lógica de navegación principal
+        const btnIngresar = document.getElementById('btn-ingresar');
+        const welcomeScreen = document.getElementById('welcome-screen');
+        const dashboardScreen = document.getElementById('dashboard-screen');
+        const tituloSeccion = document.getElementById('titulo-seccion');
+        const contentArea = document.getElementById('content-area');
+
+        btnIngresar.addEventListener('click', () => {
+            welcomeScreen.style.opacity = '0';
+            setTimeout(() => {
+                welcomeScreen.style.display = 'none';
+                dashboardScreen.style.display = 'block';
+                void dashboardScreen.offsetWidth; 
+                dashboardScreen.style.opacity = '1';
+                dashboardScreen.style.transform = 'scale(1)';
+                
+                // Cargar la sección de Inicio por defecto
+                const tabInicio = document.querySelector('.nav-item.active');
+                cambiarSeccion(tabInicio, 'Inicio');
+            }, 500);
+        });
+
+        // Función reutilizable para renderizar catálogos
+        function renderizarCatalogo(objetoProductos) {
+            contentArea.style.display = "grid";
+            contentArea.innerHTML = '';
+            
+            Object.values(objetoProductos).forEach(prod => {
+                const cardHtml = `
+                    <div class="card-producto">
+                        <div class="img-wrapper">
+                            <img src="${prod.imgLocal}" alt="${prod.tituloCard}" onerror="this.src='${prod.imgFallback}'">
+                        </div>
+                        <div class="titulo-producto">${prod.tituloCard}</div>
+                        <div class="botones-container">
+                            <button class="btn-info" onclick="abrirModalInfo('${prod.id}', '${prod.categoria}')" title="Descripción e información">ℹ</button>
+                            <button class="btn-pedido" onclick="enviarPedidoWhatsApp('${prod.id}', '${prod.categoria}')">🛒 Añadir</button>
+                        </div>
+                    </div>
+                `;
+                contentArea.innerHTML += cardHtml;
+            });
+        }
+
+        // Cargar Catálogo Dinámico al cambiar de sección
+        function cambiarSeccion(elemento, nombreSeccion) {
+            const items = document.querySelectorAll('.nav-item');
+            items.forEach(item => item.classList.remove('active'));
+            elemento.classList.add('active');
+            tituloSeccion.innerText = nombreSeccion;
+            
+            if(nombreSeccion === 'Inicio') {
+                const usuarioGuardado = localStorage.getItem('xamp_usuario') || 'invitado';
+                contentArea.style.display = "block";
+                contentArea.innerHTML = `
+                    <div class="inicio-container">
+                        <div class="inicio-imagen">
+                            <img src="personaje.png" alt="XAMP Personaje">
+                        </div>
+                        
+                        <div class="inicio-bienvenida-texto">
+                            Bienvenido a la tienda oficial de XAMP VENTAS <span>${usuarioGuardado}</span>!
+                        </div>
+                        
+                        <div class="inicio-guia">
+                            <h3>Guía Paso a Paso</h3>
+                            <div class="inicio-pasos-grid">
+                                <div class="paso-card">
+                                    <div class="numero">1</div>
+                                    <h4>Elige tus productos</h4>
+                                    <p>Agrega al carrito lo que deseas comprar navegando por nuestro catálogo.</p>
+                                </div>
+                                <div class="paso-card">
+                                    <div class="numero">2</div>
+                                    <h4>Revisa tu pedido</h4>
+                                    <p>Abre el carrito y presiona el botón "Proceder al Pago".</p>
+                                </div>
+                                <div class="paso-card">
+                                    <div class="numero">3</div>
+                                    <h4>Realiza el pago</h4>
+                                    <p>Usa el código QR o las cuentas bancarias para transferir el total exacto.</p>
+                                </div>
+                                <div class="paso-card">
+                                    <div class="numero">4</div>
+                                    <h4>Notifica tu compra</h4>
+                                    <p>Haz clic en el botón de WhatsApp para enviar automáticamente tu pedido y comprobante.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if(nombreSeccion === 'Streaming') {
+                renderizarCatalogo(productosStreaming);
+            } else if(nombreSeccion === 'Cursos') {
+                renderizarCatalogo(productosCursos);
+            } else if(nombreSeccion === 'APKs') {
+                renderizarCatalogo(productosApks);
+            } else {
+                contentArea.style.display = "flex";
+                contentArea.innerHTML = `<p style="color: var(--text-muted);">Espacio reservado para la sección de <b>${nombreSeccion}</b>.</p>`;
+            }
+        }
+
+        /* =========================================
+           LÓGICA DEL MODAL: ¿CÓMO COMPRAR?
+           ========================================= */
+        const modalComoComprar = document.getElementById('modal-como-comprar');
+
+        function abrirModalComoComprar() {
+            modalComoComprar.style.display = 'flex';
+            setTimeout(() => {
+                modalComoComprar.style.opacity = '1';
+                modalComoComprar.querySelector('.modal-compra-content').style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function cerrarModalComoComprar() {
+            modalComoComprar.style.opacity = '0';
+            modalComoComprar.querySelector('.modal-compra-content').style.transform = 'scale(0.9)';
+            setTimeout(() => { modalComoComprar.style.display = 'none'; }, 300);
+        }
+
+        modalComoComprar.addEventListener('click', (e) => {
+            if(e.target === modalComoComprar) { cerrarModalComoComprar(); }
+        });
+
+        /* =========================================
+           LÓGICA DEL NUEVO MODAL DE INFO Y COMPRA
+           ========================================= */
+        const modalInfo = document.getElementById('modal-info');
+        
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalPrice = document.getElementById('modal-price');
+        const modalStock = document.getElementById('modal-stock');
+        const modalTagCat = document.getElementById('modal-tag-cat');
+        const modalDescList = document.getElementById('modal-desc-list');
+        const btnModalComprar = document.getElementById('btn-modal-comprar');
+
+        function abrirModalInfo(idProducto, categoria) {
+            let db;
+            if(categoria === 'STREAMING') db = productosStreaming;
+            else if(categoria === 'CURSOS') db = productosCursos;
+            else if(categoria === 'APKs') db = productosApks;
+            
+            const prod = db[idProducto];
+            
+            modalImg.src = prod.imgLocal;
+            modalImg.onerror = () => { modalImg.src = prod.imgFallback; };
+            modalTitle.innerText = prod.tituloModal;
+            modalPrice.innerText = prod.precio;
+            modalStock.innerText = `Stock Disponible: ${prod.stock}`;
+            modalTagCat.innerText = prod.categoria;
+            
+            modalDescList.innerHTML = '';
+            prod.descripcion.forEach(item => {
+                modalDescList.innerHTML += `<li>${item}</li>`;
+            });
+
+            btnModalComprar.onclick = () => enviarPedidoWhatsApp(idProducto, categoria);
+
+            modalInfo.style.display = 'flex';
+            setTimeout(() => {
+                modalInfo.style.opacity = '1';
+                modalInfo.querySelector('.product-modal').style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function cerrarModalInfo() {
+            modalInfo.style.opacity = '0';
+            modalInfo.querySelector('.product-modal').style.transform = 'scale(0.9)';
+            setTimeout(() => { modalInfo.style.display = 'none'; }, 300);
+        }
+
+        modalInfo.addEventListener('click', (e) => {
+            if(e.target === modalInfo) { cerrarModalInfo(); }
+        });
+
+        function enviarPedidoWhatsApp(idProducto, categoria) {
+            let db;
+            if(categoria === 'STREAMING') db = productosStreaming;
+            else if(categoria === 'CURSOS') db = productosCursos;
+            else if(categoria === 'APKs') db = productosApks;
+            
+            const prod = db[idProducto];
+            const numeroTelefono = "56993116089";
+            
+            const detalles = prod.descripcion.join("\n- ");
+
+            const mensajeOriginal = `¡Hola Xamp Ventas! Me interesa adquirir el siguiente servicio:\n\n🛍️ *Producto:* ${prod.tituloModal}\n💰 *Precio:* ${prod.precio}\n\n📋 *Detalles:* \n- ${detalles}`;
+            const mensajeCodificado = encodeURIComponent(mensajeOriginal);
+            const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${mensajeCodificado}`;
+            
+            window.open(urlWhatsApp, '_blank');
+        }
+
+        /* =========================================
+           MODAL DE REGISTRO
+           ========================================= */
+        const modalRegistro = document.getElementById('modal-registro');
+        const btnAbrirModal = document.getElementById('btn-abrir-modal');
+        const btnCerrarModal = document.getElementById('btn-cerrar-modal');
+        const btnGuardarDatos = document.getElementById('btn-guardar-datos');
+        const userDisplay = document.getElementById('user-display');
+
+        window.onload = () => {
+            const savedUser = localStorage.getItem('xamp_usuario');
+            if(savedUser) {
+                btnAbrirModal.style.display = 'none';
+                userDisplay.style.display = 'block';
+                userDisplay.innerText = `🟢 Conectado: ${savedUser}`;
+            }
+        };
+
+        btnAbrirModal.addEventListener('click', () => {
+            modalRegistro.style.display = 'flex';
+            setTimeout(() => {
+                modalRegistro.style.opacity = '1';
+                modalRegistro.querySelector('.modal-content').style.transform = 'scale(1)';
+            }, 10);
+        });
+
+        btnCerrarModal.addEventListener('click', () => {
+            modalRegistro.style.opacity = '0';
+            modalRegistro.querySelector('.modal-content').style.transform = 'scale(0.9)';
+            setTimeout(() => { modalRegistro.style.display = 'none'; }, 300);
+        });
+
+        btnGuardarDatos.addEventListener('click', () => {
+            const usuario = document.getElementById('reg-usuario').value;
+            const gmail = document.getElementById('reg-gmail').value;
+            if (usuario === '' || gmail === '') { alert('Por favor, completa ambos campos.'); return; }
+            localStorage.setItem('xamp_usuario', usuario);
+            localStorage.setItem('xamp_gmail', gmail);
+
+            const fechaActual = new Date().toLocaleDateString();
+            const contenidoCSV = `Usuario,Correo,Fecha de Registro\n${usuario},${gmail},${fechaActual}`;
+            const blob = new Blob([contenidoCSV], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const linkDescarga = document.createElement('a');
+            linkDescarga.href = url;
+            linkDescarga.setAttribute('download', `registro_xamp_${usuario}.csv`);
+            document.body.appendChild(linkDescarga);
+            linkDescarga.click();
+            document.body.removeChild(linkDescarga);
+
+            btnCerrarModal.click();
+            btnAbrirModal.style.display = 'none';
+            userDisplay.style.display = 'block';
+            userDisplay.innerText = `🟢 Conectado: ${usuario}`;
+            
+            // Actualizar la vista de inicio si está activa al registrarse
+            const tabActivo = document.querySelector('.nav-item.active');
+            if(tabActivo && tabActivo.innerText === 'Inicio') {
+                cambiarSeccion(tabActivo, 'Inicio');
+            }
+            
+            alert('¡Registro exitoso! Tu archivo de Excel ha sido descargado en tu PC.');
+        });
+    </script>
+</body>
+</html>
