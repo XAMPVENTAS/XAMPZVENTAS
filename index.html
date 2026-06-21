@@ -290,8 +290,13 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Botón de cómo comprar */
-        .btn-como-comprar {
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-como-comprar, .select-pais {
             background: rgba(0, 245, 160, 0.1);
             color: var(--neon-green);
             border: 1px solid var(--neon-green);
@@ -303,6 +308,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            outline: none;
         }
 
         .btn-como-comprar:hover {
@@ -312,7 +318,24 @@
             transform: scale(1.05);
         }
 
-        /* Contenedor del Catálogo Grid */
+        .select-pais {
+            background: rgba(0, 217, 245, 0.1);
+            color: var(--neon-cyan);
+            border-color: var(--neon-cyan);
+            appearance: none;
+            -webkit-appearance: none;
+            padding-right: 2rem;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300d9f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1em;
+        }
+
+        .select-pais option {
+            background: var(--bg-dark);
+            color: #fff;
+        }
+
         #content-area {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -322,7 +345,7 @@
         }
 
         /* =========================================
-           SECCIÓN INICIO
+           SECCIÓN INICIO Y EXTRAS (PAGOS, WHATSAPP)
            ========================================= */
         .inicio-container {
             display: flex;
@@ -420,6 +443,88 @@
             line-height: 1.4;
         }
 
+        /* Nuevas secciones: Métodos de Pago y WhatsApp */
+        .inicio-extras {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .metodos-pago, .grupo-whatsapp {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .metodos-pago h3, .grupo-whatsapp h3 {
+            color: var(--neon-cyan);
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logos-pago {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 3.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pago-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .pago-item img {
+            height: 60px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .pago-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .pago-item span {
+            color: #fff;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-whatsapp-grupo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #25D366;
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 40px;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-whatsapp-grupo:hover {
+            transform: scale(1.05);
+            background: #128C7E;
+            box-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
+        }
+
         /* =========================================
            TARJETAS DE PRODUCTO (CATÁLOGO)
            ========================================= */
@@ -433,6 +538,7 @@
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .card-producto:hover {
@@ -460,11 +566,18 @@
         }
 
         .titulo-producto {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             color: var(--text-main);
             flex-grow: 1;
+        }
+
+        .precio-producto {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--neon-green);
+            margin-bottom: 1rem;
         }
 
         .botones-container {
@@ -548,7 +661,7 @@
         }
 
         /* =========================================
-           MODAL: ¿CÓMO COMPRAR? (Estilo Imagen)
+           MODAL: ¿CÓMO COMPRAR?
            ========================================= */
         .modal-compra-content {
             background: #111520;
@@ -878,10 +991,13 @@
             .main-content { padding: 1.5rem 1rem; }
             .header-section { flex-direction: column; gap: 1rem; align-items: stretch;}
             .header-section h2 { font-size: 1.8rem; text-align: center; }
+            .header-actions { flex-direction: column; width: 100%;}
+            .btn-como-comprar, .select-pais { width: 100%; justify-content: center;}
             
             #content-area { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; }
             
-            .titulo-producto { font-size: 0.9rem; margin-bottom: 0.5rem; }
+            .titulo-producto { font-size: 0.9rem; margin-bottom: 0.2rem; }
+            .precio-producto { font-size: 1rem; }
             .img-wrapper { height: 100px; }
             .btn-pedido { font-size: 0.8rem; padding: 0.5rem; }
             .btn-info { width: 35px; height: 35px; font-size: 0.9rem; }
@@ -907,7 +1023,7 @@
         
         <div class="welcome-content">
             <h1 class="welcome-title">Bienvenido a <br><span>XAMP VENTAS</span></h1>
-            <p class="welcome-desc">Aquí puedes comprar cuentas de streaming y perfiles.</p>
+            <p class="welcome-desc">Aquí puedes comprar cuentas de streaming, perfiles y recargas de diamantes.</p>
         </div>
 
         <button class="btn-ingresar-corner" id="btn-ingresar">Ingresar</button>
@@ -922,6 +1038,7 @@
                 </div>
                 <ul class="nav-menu">
                     <li class="nav-item active" onclick="cambiarSeccion(this, 'Inicio')">Inicio</li>
+                    <li class="nav-item" onclick="cambiarSeccion(this, 'Recargas')">Recargas</li>
                     <li class="nav-item" onclick="cambiarSeccion(this, 'Streaming')">Streaming</li>
                     <li class="nav-item" onclick="cambiarSeccion(this, 'Dox')">Dox</li>
                     <li class="nav-item" onclick="cambiarSeccion(this, 'Cursos')">Cursos</li>
@@ -937,9 +1054,15 @@
             <main class="main-content">
                 <div class="header-section">
                     <h2 id="titulo-seccion">Inicio</h2>
-                    <button class="btn-como-comprar" onclick="abrirModalComoComprar()">
-                        ❓ ¿Cómo comprar?
-                    </button>
+                    <div class="header-actions">
+                        <select id="selector-pais" class="select-pais">
+                            <option value="PE">🇵🇪 Perú</option>
+                            <option value="CL">🇨🇱 Chile</option>
+                        </select>
+                        <button class="btn-como-comprar" onclick="abrirModalComoComprar()">
+                            ❓ ¿Cómo comprar?
+                        </button>
+                    </div>
                 </div>
                 
                 <div id="content-area">
@@ -964,15 +1087,15 @@
                     <div class="paso-num">1</div>
                     <div class="paso-text">
                         <h4>Elige tus productos</h4>
-                        <p>Agrega al carrito lo que deseas comprar navegando por nuestro catálogo.</p>
+                        <p>Seleccione el producto que desea comprar navegando por nuestro catálogo.</p>
                     </div>
                 </div>
                 
                 <div class="paso-item">
                     <div class="paso-num">2</div>
                     <div class="paso-text">
-                        <h4>Revisa tu pedido</h4>
-                        <p>Abre el carrito y presiona el botón "Proceder al Pago".</p>
+                        <h4>Presione comprar</h4>
+                        <p>Una vez presionando comprar te mandara al whatsaap.</p>
                     </div>
                 </div>
                 
@@ -988,7 +1111,7 @@
                     <div class="paso-num">4</div>
                     <div class="paso-text">
                         <h4>Notifica tu compra</h4>
-                        <p>Haz clic en el botón de WhatsApp para enviar automáticamente tu pedido y comprobante.</p>
+                        <p>Una vez realizado el pago envíe el comprobante a xamp ventas.</p>
                     </div>
                 </div>
             </div>
@@ -1042,16 +1165,119 @@
     </div>
 
     <script>
+        // ESTADO GLOBAL
+        let paisActual = 'PE';
+
         /* =========================================
            BASE DE DATOS DE PRODUCTOS
            ========================================= */
+
+        const productosRecargas = {
+            'ff120': {
+                id: 'ff120',
+                categoria: 'RECARGAS',
+                tituloCard: '💎 120 Diamantes Free Fire',
+                tituloModal: '120 Diamantes (100+20)',
+                precios: { PE: 'S/ 3.50', CL: '$ 800' },
+                stock: 'Infinito',
+                imgLocal: 'personaje.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Garena_Free_Fire_Logo.png/800px-Garena_Free_Fire_Logo.png',
+                descripcion: [
+                    "Recarga rápida y 100% segura por ID.",
+                    "Entrega inmediata a tu cuenta de Free Fire.",
+                    "Recarga oficial vía PagoStore.",
+                    "Confiable y garantizado, libre de baneos."
+                ]
+            },
+            'ff372': {
+                id: 'ff372',
+                categoria: 'RECARGAS',
+                tituloCard: '💎 372 Diamantes Free Fire',
+                tituloModal: '372 Diamantes (310+62)',
+                precios: { PE: 'S/ 11.00', CL: '$ 2,800' },
+                stock: 'Infinito',
+                imgLocal: 'personaje.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Garena_Free_Fire_Logo.png/800px-Garena_Free_Fire_Logo.png',
+                descripcion: [
+                    "Recarga rápida y 100% segura por ID.",
+                    "Entrega inmediata a tu cuenta de Free Fire.",
+                    "Recarga oficial vía PagoStore.",
+                    "Confiable y garantizado, libre de baneos."
+                ]
+            },
+            'ff624': {
+                id: 'ff624',
+                categoria: 'RECARGAS',
+                tituloCard: '💎 624 Diamantes Free Fire',
+                tituloModal: '624 Diamantes (520+104)',
+                precios: { PE: 'S/ 16.00', CL: '$ 3,500' },
+                stock: 'Infinito',
+                imgLocal: 'personaje.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Garena_Free_Fire_Logo.png/800px-Garena_Free_Fire_Logo.png',
+                descripcion: [
+                    "Recarga rápida y 100% segura por ID.",
+                    "Entrega inmediata a tu cuenta de Free Fire.",
+                    "Recarga oficial vía PagoStore.",
+                    "Confiable y garantizado, libre de baneos."
+                ]
+            },
+            'ff1272': {
+                id: 'ff1272',
+                categoria: 'RECARGAS',
+                tituloCard: '💎 1272 Diamantes Free Fire',
+                tituloModal: '1272 Diamantes (1060+212)',
+                precios: { PE: 'S/ 30.00', CL: '$ 6,200' },
+                stock: 'Infinito',
+                imgLocal: 'personaje.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Garena_Free_Fire_Logo.png/800px-Garena_Free_Fire_Logo.png',
+                descripcion: [
+                    "Recarga rápida y 100% segura por ID.",
+                    "Entrega inmediata a tu cuenta de Free Fire.",
+                    "Recarga oficial vía PagoStore.",
+                    "Confiable y garantizado, libre de baneos."
+                ]
+            },
+            'ff2616': {
+                id: 'ff2616',
+                categoria: 'RECARGAS',
+                tituloCard: '💎 2616 Diamantes Free Fire',
+                tituloModal: '2616 Diamantes (2180+436)',
+                precios: { PE: 'S/ 57.00', CL: '$ 13,000' },
+                stock: 'Infinito',
+                imgLocal: 'personaje.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Garena_Free_Fire_Logo.png/800px-Garena_Free_Fire_Logo.png',
+                descripcion: [
+                    "Recarga rápida y 100% segura por ID.",
+                    "Entrega inmediata a tu cuenta de Free Fire.",
+                    "Recarga oficial vía PagoStore.",
+                    "Confiable y garantizado, libre de baneos."
+                ]
+            },
+            'ff6160': {
+                id: 'ff6160',
+                categoria: 'RECARGAS',
+                tituloCard: '💎 6160 Diamantes Free Fire',
+                tituloModal: '6160 Diamantes (5600+560)',
+                precios: { PE: 'S/ 140.00', CL: '$ 32,000' },
+                stock: 'Infinito',
+                imgLocal: 'personaje.png',
+                imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Garena_Free_Fire_Logo.png/800px-Garena_Free_Fire_Logo.png',
+                descripcion: [
+                    "Recarga rápida y 100% segura por ID.",
+                    "Entrega inmediata a tu cuenta de Free Fire.",
+                    "Recarga oficial vía PagoStore.",
+                    "Confiable y garantizado, libre de baneos."
+                ]
+            }
+        };
+
         const productosStreaming = {
             'hbomax': {
                 id: 'hbomax',
                 categoria: 'STREAMING',
                 tituloCard: 'HBO MAX',
                 tituloModal: 'Alquiler HBO Max',
-                precio: 'S/ 15.00',
+                precios: { PE: 'S/ 15.00', CL: '$ 4,500' },
                 stock: 45,
                 imgLocal: 'hbomax.png',
                 imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg',
@@ -1069,7 +1295,7 @@
                 categoria: 'STREAMING',
                 tituloCard: 'HIT PARAMOUNT',
                 tituloModal: 'HIT PARAMOUNT',
-                precio: 'S/ 15.00',
+                precios: { PE: 'S/ 15.00', CL: '$ 4,500' },
                 stock: 183,
                 imgLocal: 'paramount.png',
                 imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus.svg',
@@ -1088,7 +1314,7 @@
                 categoria: 'STREAMING',
                 tituloCard: 'CABLEGO CON SPN',
                 tituloModal: 'HIT CABLEGO PREMIUM CON SPN',
-                precio: 'S/ 17.00',
+                precios: { PE: 'S/ 17.00', CL: '$ 5,000' },
                 stock: 27,
                 imgLocal: 'cablego.png',
                 imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/1/12/User_icon_2.svg',
@@ -1105,7 +1331,7 @@
                 categoria: 'STREAMING',
                 tituloCard: 'YOUTUBE PREMIUM',
                 tituloModal: 'CUENTA COMPLETA YOUTUBE PREMIUM',
-                precio: 'S/ 5.00',
+                precios: { PE: 'S/ 5.00', CL: '$ 1,500' },
                 stock: 150,
                 imgLocal: 'youtube.png',
                 imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Logo_of_YouTube_%282015-2017%29.svg',
@@ -1113,6 +1339,69 @@
                     "PLAN PREMIUM",
                     "CUENTA COMPLETA",
                     "GARANTIA DEL TIEMPO CONTRATADO",
+                    "SE ENTREGA CORREO Y CONTRASEÑA"
+                ]
+            },
+            'geminipro': {
+                id: 'geminipro',
+                categoria: 'STREAMING',
+                tituloCard: 'LINK GEMINI PRO 18 MESES',
+                tituloModal: 'LINK DE ACTIVACION GEMINI PRO A DOMINIO',
+                precios: { PE: 'S/ 50.00', CL: '$ 12,000' },
+                stock: 2,
+                imgLocal: 'gemini.png',
+                imgFallback: 'gemini.png',
+                descripcion: [
+                    "LINK DE ACTIVACION GEMINI PRO A DOMINIO ✅",
+                    "PLAN : 18 MESES ✅",
+                    "ES ACTIVACION NO ALQUILER ✅",
+                    "UN SOLO PAGO ✅",
+                    "EL LINK ES IGUAL QUE TODOS LOS QUE VENDEN. ✅",
+                    "5TB ONE DRIVE ✅",
+                    "GARANTIA DE ACTIVACION ✅",
+                    "AÑADE A 5 PERSONAS A TU GRUPO FAMILIAR ✅",
+                    "NO REQUIERE TARJETA PARA ACTIVAR EL BENEFICIO ✅",
+                    "INGRESAS AL LINK Y ACEPTAS EL BENEFICIO",
+                    "RECOMENDACIONES:",
+                    "1. DAS CLICK AL ENLACE , ACEPTAS LOS BENEFICIOS Y LISTO",
+                    "2. DOY 1H COMO MAXIMO PARA ACTIVAR EL BENEFICIO"
+                ]
+            },
+            'office365': {
+                id: 'office365',
+                categoria: 'STREAMING',
+                tituloCard: 'OFFICE 365 CORPORATIVO LIFETIME',
+                tituloModal: 'OFFICE 365 CORPORATIVO LIFETIME',
+                precios: { PE: 'S/ 60.00', CL: '$ 14,000' },
+                stock: 8,
+                imgLocal: 'office.png',
+                imgFallback: 'office.png',
+                descripcion: [
+                    "✅ Uso en hasta 5 dispositivos",
+                    "✅ Word, Excel, PowerPoint y más",
+                    "✅ Acceso permanente (sin pagos mensuales)",
+                    "✅ Entrega inmediata ⚡",
+                    "🔐 Cuenta segura y personalizada",
+                    "Se entrega correo + contraseña. Al iniciar sesión en (office.com) podrás cambiar la contraseña 🔑 para que la cuenta quede privada para ti.",
+                    "📲 Puedes vincular tu correo o número de recuperación",
+                    "🛡️ Garantía total de 5 meses"
+                ]
+            },
+            'crunchyroll': {
+                id: 'crunchyroll',
+                categoria: 'STREAMING',
+                tituloCard: 'CRUNCHYROLL MEGA FAN',
+                tituloModal: 'CRUNCHYROLL (EL MEJOR PLAN)',
+                precios: { PE: 'S/ 5.00', CL: '$ 1,500' },
+                stock: 'Infinito',
+                imgLocal: 'crunchyroll.png',
+                imgFallback: 'crunchyroll.png',
+                descripcion: [
+                    "PLAN MEGA FAN (El mejor plan disponible) 🌟",
+                    "Acceso a todo el catálogo de anime sin anuncios",
+                    "Visualización sin conexión (Descargas disponibles)",
+                    "Episodios estreno simulcast poco después de Japón",
+                    "GARANTIA TOTAL DEL TIEMPO CONTRATADO",
                     "SE ENTREGA CORREO Y CONTRASEÑA"
                 ]
             }
@@ -1124,7 +1413,7 @@
                 categoria: 'CURSOS',
                 tituloCard: 'Método Prime 06 Meses',
                 tituloModal: 'METODO PRIME 06 MESES',
-                precio: 'S/ 100.00',
+                precios: { PE: 'S/ 100.00', CL: '$ 28,500' },
                 stock: 20,
                 imgLocal: 'amazonprime.png',
                 imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/1/11/Amazon_Prime_Video_logo.svg',
@@ -1145,7 +1434,7 @@
                 categoria: 'APKs',
                 tituloCard: 'YOUTUBE PREMIUM APK',
                 tituloModal: 'CUENTA COMPLETA YOUTUBE PREMIUM',
-                precio: 'S/ 40.00',
+                precios: { PE: 'S/ 40.00', CL: '$ 12,000' },
                 stock: 99,
                 imgLocal: 'youtubeapk.png',
                 imgFallback: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/Logo_of_YouTube_%282015-2017%29.svg',
@@ -1158,6 +1447,16 @@
                 ]
             }
         };
+
+        // Lógica del Selector de País
+        document.getElementById('selector-pais').addEventListener('change', (e) => {
+            paisActual = e.target.value;
+            // Refrescar el catálogo actual para actualizar la vista de precios
+            const tabActivo = document.querySelector('.nav-item.active');
+            if (tabActivo) {
+                cambiarSeccion(tabActivo, tabActivo.innerText);
+            }
+        });
 
         // Lógica de navegación principal
         const btnIngresar = document.getElementById('btn-ingresar');
@@ -1187,12 +1486,16 @@
             contentArea.innerHTML = '';
             
             Object.values(objetoProductos).forEach(prod => {
+                // Obtener el precio dinámico dependiendo del país seleccionado
+                const precioMostrar = prod.precios[paisActual];
+                
                 const cardHtml = `
                     <div class="card-producto">
                         <div class="img-wrapper">
                             <img src="${prod.imgLocal}" alt="${prod.tituloCard}" onerror="this.src='${prod.imgFallback}'">
                         </div>
                         <div class="titulo-producto">${prod.tituloCard}</div>
+                        <div class="precio-producto">${precioMostrar}</div>
                         <div class="botones-container">
                             <button class="btn-info" onclick="abrirModalInfo('${prod.id}', '${prod.categoria}')" title="Descripción e información">ℹ</button>
                             <button class="btn-pedido" onclick="enviarPedidoWhatsApp('${prod.id}', '${prod.categoria}')">🛒 Añadir</button>
@@ -1229,12 +1532,12 @@
                                 <div class="paso-card">
                                     <div class="numero">1</div>
                                     <h4>Elige tus productos</h4>
-                                    <p>Agrega al carrito lo que deseas comprar navegando por nuestro catálogo.</p>
+                                    <p>Seleccione el producto que desea comprar navegando por nuestro catálogo.</p>
                                 </div>
                                 <div class="paso-card">
                                     <div class="numero">2</div>
-                                    <h4>Revisa tu pedido</h4>
-                                    <p>Abre el carrito y presiona el botón "Proceder al Pago".</p>
+                                    <h4>Presione comprar</h4>
+                                    <p>Una vez presionando comprar te mandara al whatsaap.</p>
                                 </div>
                                 <div class="paso-card">
                                     <div class="numero">3</div>
@@ -1244,12 +1547,37 @@
                                 <div class="paso-card">
                                     <div class="numero">4</div>
                                     <h4>Notifica tu compra</h4>
-                                    <p>Haz clic en el botón de WhatsApp para enviar automáticamente tu pedido y comprobante.</p>
+                                    <p>Una vez realizado el pago envíe el comprobante a xamp ventas.</p>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="inicio-extras">
+                            <div class="metodos-pago">
+                                <h3>Métodos de Pago</h3>
+                                <div class="logos-pago">
+                                    <div class="pago-item">
+                                        <img src="yape.png" alt="Yape">
+                                        <span>Yape</span>
+                                    </div>
+                                    <div class="pago-item">
+                                        <img src="bancoestado.png" alt="Banco Estado">
+                                        <span>Banco Estado</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="grupo-whatsapp">
+                                <h3>Comunidad</h3>
+                                <a href="https://chat.whatsapp.com/HKwPi6ptCZVDgk9kXgfQC0?s=cl&p=a&ilr=0" target="_blank" class="btn-whatsapp-grupo">
+                                    Únete al grupo oficial de WhatsApp de XAMP VENTAS
+                                </a>
                             </div>
                         </div>
                     </div>
                 `;
+            } else if(nombreSeccion === 'Recargas') {
+                renderizarCatalogo(productosRecargas);
             } else if(nombreSeccion === 'Streaming') {
                 renderizarCatalogo(productosStreaming);
             } else if(nombreSeccion === 'Cursos') {
@@ -1300,7 +1628,8 @@
 
         function abrirModalInfo(idProducto, categoria) {
             let db;
-            if(categoria === 'STREAMING') db = productosStreaming;
+            if(categoria === 'RECARGAS') db = productosRecargas;
+            else if(categoria === 'STREAMING') db = productosStreaming;
             else if(categoria === 'CURSOS') db = productosCursos;
             else if(categoria === 'APKs') db = productosApks;
             
@@ -1309,8 +1638,16 @@
             modalImg.src = prod.imgLocal;
             modalImg.onerror = () => { modalImg.src = prod.imgFallback; };
             modalTitle.innerText = prod.tituloModal;
-            modalPrice.innerText = prod.precio;
-            modalStock.innerText = `Stock Disponible: ${prod.stock}`;
+            
+            // Actualizar precio en modal según el país seleccionado
+            modalPrice.innerText = prod.precios[paisActual];
+            
+            if(prod.stock === 'Infinito') {
+                modalStock.innerText = `Stock: Infinito ∞`;
+            } else {
+                modalStock.innerText = `Stock Disponible: ${prod.stock}`;
+            }
+
             modalTagCat.innerText = prod.categoria;
             
             modalDescList.innerHTML = '';
@@ -1339,7 +1676,8 @@
 
         function enviarPedidoWhatsApp(idProducto, categoria) {
             let db;
-            if(categoria === 'STREAMING') db = productosStreaming;
+            if(categoria === 'RECARGAS') db = productosRecargas;
+            else if(categoria === 'STREAMING') db = productosStreaming;
             else if(categoria === 'CURSOS') db = productosCursos;
             else if(categoria === 'APKs') db = productosApks;
             
@@ -1347,8 +1685,10 @@
             const numeroTelefono = "56993116089";
             
             const detalles = prod.descripcion.join("\n- ");
+            // Obtener el precio dinámico actual
+            const precioActual = prod.precios[paisActual];
 
-            const mensajeOriginal = `¡Hola Xamp Ventas! Me interesa adquirir el siguiente servicio:\n\n🛍️ *Producto:* ${prod.tituloModal}\n💰 *Precio:* ${prod.precio}\n\n📋 *Detalles:* \n- ${detalles}`;
+            const mensajeOriginal = `¡Hola Xamp Ventas! Me interesa adquirir el siguiente servicio:\n\n🛍️ *Producto:* ${prod.tituloModal}\n💰 *Precio:* ${precioActual}\n\n📋 *Detalles:* \n- ${detalles}`;
             const mensajeCodificado = encodeURIComponent(mensajeOriginal);
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroTelefono}&text=${mensajeCodificado}`;
             
